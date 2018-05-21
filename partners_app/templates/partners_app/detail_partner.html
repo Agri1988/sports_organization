@@ -1,0 +1,42 @@
+{% extends 'base_app/base.html' %}
+{% load staticfiles %}
+{% block body %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'partners_app/css/modal_form.css' %}">
+    <div class="container">
+        <div class="row">
+            <div class="offset-3 col-lg-6" >
+                <form id="partner_detail_form" method="post" enctype="multipart/form-data" class=""
+                      {% if partner_id %}
+                        action="{{ form.instance.get_absolute_url }}"
+                      {% endif %}>
+                    {% csrf_token %}
+                    {{ form.as_p}}
+                    <p><label >Фотография</label></p>
+                    {% if image %}
+                        <a href="{{ image.image.url }}"><img src="{{ image.image.url }}" class="img-responsive" style="width: 100%;"> </a>
+                    <a href="{% url 'partners_app:delete_photo' pk=image.id %}?url={{ form.instance.get_absolute_url }}&partner_type={{ partner_type }}"><i class="fas fa-trash-alt"></i></a>
+                    {% endif %}
+                    {% if not image %}
+                    <p><input id="add_image_id" type="file" name="image"></p>
+                    {% endif %}
+                    <p><button name="submit">Сохранить</button></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+    <script type="text/javascript" >
+        bootstrap_form('#partner_detail_form');
+        django_date_to_datefield('#id_birthday');
+        {% ifequal partner_type 'employee'%}
+            django_date_to_datefield('#id_date_of_dismissal');
+            django_date_to_datefield('#id_date_of_employment');
+        {% endifequal %}
+    </script>
+    <script type="text/javascript" src="{% static 'partners_app/js/add_identity_document.js' %}"></script>
+    <script>add_element('#id_identity_document', "{% url 'partners_app:new_identity_document' %}")</script>
+
+{% endblock %}
+

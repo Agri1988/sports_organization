@@ -1,0 +1,72 @@
+{% extends 'base_app/base.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-offset-2 col-lg-8 ">
+                <div class="table-responsive ">
+                    <table  id="table" class="table table-bordered">
+                    {% for partner in partners %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            {% if partner_type == 'client' %}
+                                <td><a href="{% url 'partners_app:detail_client' partner.id %}">{{ partner.last_name }}</a></td>
+                                {% else %}
+                                <td><a href="{% url 'partners_app:detail_employee' partner.id %}">{{ partner.last_name }}</a></td>
+                            {% endif %}
+
+                            <td>{{ partner.first_name }}</td>
+                            <td>{{ partner.patronymic }}</td>
+                            <td>{{ partner.birthday|date:'d.m.Y' }}</td>
+                            {% if partner_type == 'client' %}
+                            <td><a href="{% url 'partners_app:delete_client' partner.id %}">delete</a></td>
+                            {% else %}
+                            <td><a href="{% url 'partners_app:delete_employee' partner.id %}">delete</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </table>
+                {% if paginator.num_pages > 1 %}
+                    <div id="pagination" style="display: inline-block">
+                        {% if page_obj.number > 1 %}
+                            <div id="first_page" style="display: inline-block">
+                                <a href="{{ request.path }}?page=1">first</a>
+                            </div>
+                        {% endif %}
+                        {% if page_obj.has_previous %}
+                            <div id="previus_page" style="display: inline-block"><a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">&lt;</a></div>
+                        {% endif %}
+                            <div id="num_page" style="display: inline-block">
+                                {% for pn in paginator.page_range %}
+                                    {% if not forloop.first %}
+                                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% if page_obj.number != pn %}
+                                        <a href="{{ request.path }}?page={{ pn }}">{{ pn }}</a>
+                                        {% else %}
+                                        {{ pn }}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% if page_obj.has_next %}
+                            <div id="next_page" style="display: inline-block">
+                                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">&gt;</a>
+                            </div>
+                            <div id="last_page" style="display: inline-block">
+                                <a href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}">last</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <div id="btn">
+                    {% if partner_type == 'client' %}
+                        <button class="btn" onclick="location.href = '{% url "partners_app:new_client" %}'">Добавить клиента</button>
+                    {% else %}
+                        <button class="btn" onclick="location.href = '{% url "partners_app:new_employee" %}'">Добавить сотрудника</button>
+                    {% endif%}
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
