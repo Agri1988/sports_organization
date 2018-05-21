@@ -20,7 +20,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView
 
 from . import views
-from .models import Client, Employee, PartnerPhoto, IdentityDocument
+from .models import Client, Employee, IdentityDocument
 from .forms import ClientForm, EmployeeForm
 
 app_name = 'partners_app'
@@ -29,23 +29,14 @@ app_name = 'partners_app'
 
 
 urlpatterns = [
-    path('client_list/', views.PartnersListView.as_view(**{'model':Client}), name='client_list'),
-    path('employee_list/', views.PartnersListView.as_view(**{'model':Employee}), name='employee_list'),
-    path('new_client/', views.PartnerCreateView.as_view(**{'form_class':ClientForm,'model':Client}),name='new_client'),
-    path('detail_client/<int:pk>/', views.PartnerUpdateView.as_view(**{'form_class':ClientForm,'model':Client}),
-         name='detail_client'),
-    path('new_employee/', views.PartnerCreateView.as_view(**{'form_class':EmployeeForm,'model':Employee}),
-         name='new_employee'),
-    path('detail_employee/<int:pk>/', views.PartnerUpdateView.as_view(
-        **{'form_class':EmployeeForm,'model':Employee}),name='detail_employee'),
-    path('delete_employee/<int:pk>/', DeleteView.as_view(
-        **{'model':Employee, 'success_url':reverse_lazy('partners_app:employee_list')}),name='delete_employee'),
-    path('delete_client/<int:pk>/', DeleteView.as_view(
-        **{'model':Client, 'success_url':reverse_lazy('partners_app:client_list')}),name='delete_client'),
-    path('delete_image/<int:pk>/', views.DeleteImageView.as_view(
-        **{'model':PartnerPhoto}),name='delete_photo'),
-    # path('new_identity_document/', views.CreateView.as_view(**{'model':IdentityDocument, 'fields':'__all__',
-    #     'template_name':'partners_app/snippets/form_snippet.html', 'success_url':False}),name='new_identity_document'),
+    path('client_list/', views.ClientListView.as_view(), name='client_list'),
+    path('employee_list/', views.EmployeeListView.as_view(), name='employee_list'),
+    path('new_client/', views.ClientCreateView.as_view(), name='new_client'),
+    path('detail_client/<int:pk>/', views.ClientUpdateView.as_view(), name='detail_client'),
+    path('new_employee/', views.EmployeeCreateView.as_view(), name='new_employee'),
+    path('detail_employee/<int:pk>/', views.EmployeeUpdateView.as_view(), name='detail_employee'),
+    path('delete_employee/<int:pk>/', views.EmployeeDeleteView.as_view(),name='delete_employee'),
+    path('delete_client/<int:pk>/', views.ClientDeleteView.as_view(), name='delete_client'),
     path('ajax_form/', views.AjaxView.as_view(**{'model':IdentityDocument, 'fields':'__all__',
         'template_name':'partners_app/snippets/form_snippet.html'}),name='new_identity_document'),
 ]

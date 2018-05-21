@@ -23,6 +23,6 @@ from . import views
 
 app_name = 'services_app'
 urlpatterns = [
-    path('services_list/', ListView.as_view(**{'model': Service,'template_name':'services_app/snippets/service_list.html'}),
-         name='services_list'),
+    path('services_list/', ListView.as_view(**{'model': Service,'template_name': 'services_app/snippets/service_list.html',
+                                               'paginate_by': 1}), name='services_list'),
 ]

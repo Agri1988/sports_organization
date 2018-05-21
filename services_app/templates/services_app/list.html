@@ -10,6 +10,38 @@
 
                         {% endblock %}
                     </table>
+                {% if paginator.num_pages > 1 %}
+                    <div id="pagination" style="display: inline-block">
+                        {% if page_obj.number > 1 %}
+                            <div id="first_page" style="display: inline-block">
+                                <a href="{{ request.path }}?page=1">first</a>
+                            </div>
+                        {% endif %}
+                        {% if page_obj.has_previous %}
+                            <div id="previus_page" style="display: inline-block"><a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">&lt;</a></div>
+                        {% endif %}
+                            <div id="num_page" style="display: inline-block">
+                                {% for pn in paginator.page_range %}
+                                    {% if not forloop.first %}
+                                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% if page_obj.number != pn %}
+                                        <a href="{{ request.path }}?page={{ pn }}">{{ pn }}</a>
+                                        {% else %}
+                                        {{ pn }}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% if page_obj.has_next %}
+                            <div id="next_page" style="display: inline-block">
+                                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">&gt;</a>
+                            </div>
+                            <div id="last_page" style="display: inline-block">
+                                <a href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}">last</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
                 </div>
             </div>
         </div>
