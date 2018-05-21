@@ -6,12 +6,9 @@
             <div class="col-lg-offset-2 col-lg-8 ">
                 <div class="table-responsive ">
                     <table  id="services_table" class="table table-bordered">
-                        {% for service in services %}
-                            <tr>
-                                <td>{{ service.name }}</td>
-                            </tr>
-                        {% endfor %}
+                        {% block table %}
 
+                        {% endblock %}
                     </table>
                 </div>
             </div>

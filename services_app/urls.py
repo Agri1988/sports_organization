@@ -16,9 +16,13 @@ Including another URLconf
 from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import ListView
+from .models import Service
+
 from . import views
 
 app_name = 'services_app'
 urlpatterns = [
-    path('services_list/', views.services_list, name='services_list'),
+    path('services_list/', ListView.as_view(**{'model': Service,'template_name':'services_app/snippets/service_list.html'}),
+         name='services_list'),
 ]

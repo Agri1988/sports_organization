@@ -1,0 +1,10 @@
+{% extends 'services_app/list.html' %}
+{% block table %}
+    <table  id="services_table" class="table table-bordered">
+        {% for obj in object_list %}
+            <tr>
+                <td>{{ obj.name }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
