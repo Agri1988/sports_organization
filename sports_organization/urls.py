@@ -18,12 +18,16 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
+
 from sports_organization import settings
+from partners_app import views
 
 urlpatterns = [
     path('', include('base_app.urls', namespace='base_app')),
     path('admin/', admin.site.urls),
     path('services/', include('services_app.urls', namespace='services_app')),
     path('partners/', include('partners_app.urls', namespace='partners_app')),
+
+
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
 +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

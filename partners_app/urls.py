@@ -29,6 +29,8 @@ app_name = 'partners_app'
 
 
 urlpatterns = [
+    path('api/', include('partners_app.api.urls')),
+
     path('client_list/', views.ClientListView.as_view(), name='client_list'),
     path('employee_list/', views.EmployeeListView.as_view(), name='employee_list'),
     path('new_client/', views.ClientCreateView.as_view(), name='new_client'),
@@ -37,6 +39,5 @@ urlpatterns = [
     path('detail_employee/<int:pk>/', views.EmployeeUpdateView.as_view(), name='detail_employee'),
     path('delete_employee/<int:pk>/', views.EmployeeDeleteView.as_view(),name='delete_employee'),
     path('delete_client/<int:pk>/', views.ClientDeleteView.as_view(), name='delete_client'),
-    path('ajax_form/', views.AjaxView.as_view(**{'model':IdentityDocument, 'fields':'__all__',
-        'template_name':'partners_app/snippets/form_snippet.html'}),name='new_identity_document'),
+    path('get_identity_document_form/', views.GetIdentityDocumentForm.as_view(),name='new_identity_document'),
 ]

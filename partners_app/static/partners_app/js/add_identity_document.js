@@ -30,7 +30,6 @@ function add_element (field_selector, url) {
                 console.log('error')
             }
         });
-
     })
 }
 
@@ -54,25 +53,26 @@ $(document).ready(function () {
 
 
 function add_data_to_field(event, form_selector) {
-    event.preventDefault()
+    event.preventDefault();
         var field_selector = $('#field_selector_id').val();
-        var data_dict= {};
-        $('#modal_form').find(form_selector+' div').each(function (index) {
-            data_dict[$(this).find('input').attr('name')] = $(this).find('input').val()
+        var form = document.querySelectorAll(form_selector+' div :not(label) ' );
+        var data = {};
+        form.forEach(function(item, index){
+            if (index != form.length-1){
+                data[item.name] = item.value
+            }
         });
-        data_dict['csrfmiddlewaretoken']=csrf;
+        data['csrfmiddlewaretoken']=csrf;
         var url = $('#url').val();
-        //console.log(data_dict);
         $.ajax({
-                url:url,
+                url:'/partners/api/identity_documents/',
                 type:'POST',
-                data:data_dict,
+                data:data,
                 cache:true,
                 success:function (data){
-                    //console.log('OK', data);
                     var field = $(field_selector);
-                    field.append("<option value="+data['new_element_id']+">"+data['new_element_name']+"</option>");
-                    field.val(data['new_element_id']);
+                    field.append("<option value="+data['id']+">"+data['document_obj_name']+"</option>");
+                    field.val(data['id']);
                     close_modal_window()
                 },
                 error:function () {

@@ -12,15 +12,7 @@
                       {% endif %}>
                     {% csrf_token %}
                     {{ form.as_p}}
-{#                    <p><label >Фотография</label></p>#}
-{#                    {% if image %}#}
-{#                        <a href="{{ image.image.url }}"><img src="{{ image.image.url }}" class="img-responsive" style="width: 100%;"> </a>#}
-{#                    <a href="{% url 'partners_app:delete_photo' pk=image.id %}?url={{ form.instance.get_absolute_url }}&partner_type={{ partner_type }}"><i class="fas fa-trash-alt"></i></a>#}
-{#                    {% endif %}#}
-{#                    {% if not image %}#}
-{#                    <p><input id="add_image_id" type="file" name="image"></p>#}
-{#                    {% endif %}#}
-                    <p><button name="submit">Сохранить</button></p>
+                    <p><button name="submit" type="submit">Сохранить</button></p>
                 </form>
             </div>
         </div>

@@ -1,14 +1,13 @@
-from django.http import HttpResponseRedirect
 from django.http import JsonResponse
-from django.urls import reverse
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import CreateView,UpdateView,DeleteView,ListView
-from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.viewsets import ModelViewSet
 
+from partners_app.api.serializers import SerializerClient
 from partners_app.forms import EmployeeForm, ClientForm
-from .models import Client, Employee
-from .utils import add_image_to_model, get_data_to_field
+from .models import Client, Employee, IdentityDocument
+from .utils import get_data_to_field
+
 
 # Create your views here.
 
@@ -52,7 +51,7 @@ class EmployeeCreateView(PartnerCreateView):
 
 class PartnerUpdateView(UpdateView):
     template_name = 'partners_app/detail_partner.html'
-        
+
     def get_context_data(self, *args, **kwargs):
         context = super(PartnerUpdateView, self).get_context_data(*args, **kwargs)
         partner_type = str(self.model).split('.')[-1][:-2].lower()
@@ -78,6 +77,7 @@ class EmployeeDeleteView(DeleteView):
     model = Employee
     success_url = reverse_lazy('partners_app:employee_list')
 
-class AjaxView(CreateView):
-    def post(self, request, *args, **kwargs):
-        return JsonResponse(get_data_to_field(self.get_form_class(), self.model, request))
+class GetIdentityDocumentForm(CreateView):
+    model = IdentityDocument
+    fields = '__all__'
+    template_name= 'partners_app/snippets/form_snippet.html'
